@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pembrokeshire Peptides</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f8f8f8; color:#222; }
+        .container { max-width:900px; margin:auto; padding:30px 20px; background:#fff; }
+        h1,h2,h3{margin-top:0;}
+        .hero{text-align:center; padding:40px 20px;}
+        .hero h1{font-size:2.2em;}
+        .section{margin-top:40px;}
+        .products{background:#f1f1f1; padding:20px; border-radius:6px;}
+        .product{margin-bottom:20px;}
+        .product img{max-width:200px; display:block; margin-top:10px;}
+        .cta{background:#000; color:#fff; padding:30px; text-align:center; border-radius:6px;}
+        .cta a{color:#25D366; text-decoration:none; font-weight:bold; font-size:1.1em;}
+        footer{text-align:center; font-size:.9em; margin-top:40px; color:#666;}
+        .whatsapp-button{position:fixed; bottom:20px; right:20px; background:#25D366; color:#fff; padding:15px 20px; border-radius:50px; text-decoration:none; font-weight:bold; box-shadow:0 4px 8px rgba(0,0,0,0.2);}
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="hero">
+        <h1>Pembrokeshire Peptides</h1>
+        <p><strong>Advanced peptides for hair, skin & cellular support</strong></p>
+        <p>Private supply • UK only • Local collection available</p>
+    </div>
+
+    <div class="section products">
+        <h2>Products & Pricing</h2>
+
+        <div class="product">
+            <h3>Glow Peptide Pen</h3>
+            <img src="images/glow-pen.jpg" alt="Glow Peptide Pen">
+            <p><strong>£100</strong></p>
+        </div>
+
+        <div class="product">
+            <h3>Retatrutide</h3>
+            <img src="images/retatrutide.jpg" alt="Retatrutide">
+            <p><strong>£210</strong></p>
+        </div>
+
+        <p><strong>Payment methods:</strong></p>
+        <ul>
+            <li>Crypto accepted</li>
+            <li>Bank transfer</li>
+            <li>Cash on collection</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Delivery & Collection</h2>
+        <ul>
+            <li>📦 Postage available (UK only)</li>
+            <li>🤝 Local collection in Pembrokeshire area</li>
+        </ul>
+    </div>
+
+    <div class="section cta">
+        <h2>Order Now</h2>
+        <p>Contact us on WhatsApp to receive payment details.</p>
+        <p><a href="https://wa.me/447477210856?text=Hi%20I%20would%20like%20to%20place%20an%20order%20with%20Pembrokeshire%20Peptides">Message us on WhatsApp</a></p>
+        <p>Limited availability.</p>
+    </div>
+
+    <footer>© 2026 Pembrokeshire Peptides • UK sales only</footer>
+</div>
+
+<a class="whatsapp-button" href="https://wa.me/447477210856?text=Hi%20I%20would%20like%20to%20place%20an%20order%20with%20Pembrokeshire%20Peptides">WhatsApp</a>
+
+</body>
+</html>
