@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Pembrokeshire Peptides | Research Peptides UK</title>
+
+<style>
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: #f4f7f8;
+    color: #222;
+}
+
+.header {
+    height: 300px;
+    background-image:
+        linear-gradient(rgba(0,70,110,0.55), rgba(0,70,110,0.55)),
+        url("images/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-text {
+    color: #fff;
+    text-align: center;
+}
+
+.container {
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    padding: 30px 20px;
+}
+
+.section {
+    margin-top: 40px;
+}
+
+.products {
+    background: #eef3f6;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.product {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.product img {
+    max-width: 160px;
+    width: 100%;
+    margin: 12px auto;
+    display: block;
+    border-radius: 6px;
+}
+
+.checkbox {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 0.95em;
+}
+
+.checkbox input {
+    margin-right: 8px;
+}
+
+.cta {
+    background: linear-gradient(135deg, #003d66, #006699);
+    color: #fff;
+    padding: 35px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.payment-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.locked {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.btn {
+    padding: 12px 22px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    color: #fff;
+}
+
+.whatsapp-btn { background: #25D366; }
+.paypal-btn { background: #0070ba; }
+
+footer {
+    text-align: center;
+    font-size: 0.85em;
+    margin-top: 40px;
+    color: #666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="header-text">
+        <h1>Pembrokeshire Peptides</h1>
+        <p>Research peptides • UK only</p>
+    </div>
+</div>
+
+<div class="container">
+
+<div class="section products">
+    <h2>Products & Pricing</h2>
+
+    <div class="product">
+        <h3>Glow Peptide Pen</h3>
+        <img src="images/glow-pen.jpg">
+        <p><em>Strengths: 10mg / 10mg / 50mg</em></p>
+        <p><strong>£100</strong></p>
+    </div>
+
+    <div class="product">
+        <h3>Retatrutide</h3>
+        <img src="images/retatrutide.jpg">
+        <p><em>40mg vial</em></p>
+        <p><strong>£210</strong></p>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Delivery & Collection</h2>
+    <ul>
+        <li>UK postage available</li>
+        <li>Collection in Pembrokeshire</li>
+    </ul>
+</div>
+
+<!-- DISCLAIMER CHECKBOX -->
+<div class="section checkbox">
+    <label>
+        <input type="checkbox" id="confirmBox">
+        I confirm that I am purchasing strictly for
+        <strong>research and development purposes only</strong> and understand
+        these products are <strong>not for human or veterinary use</strong>.
+    </label>
+</div>
+
+<!-- CTA -->
+<div class="section cta">
+    <h2>Order Enquiries</h2>
+
+    <div class="payment-buttons locked" id="paymentButtons">
+        <a class="btn whatsapp-btn"
+           href="https://wa.me/447429328012">
+           WhatsApp Enquiry
+        </a>
+
+        <a class="btn paypal-btn"
+           href="https://www.paypal.me/YOURPAYPALNAME"
+           target="_blank">
+           Pay with PayPal
+        </a>
+    </div>
+
+    <p id="lockMessage" style="margin-top:15px;font-size:0.9em;">
+        Please confirm research use to continue.
+    </p>
+</div>
+
+<footer>
+    © 2026 Pembrokeshire Peptides • Research supply only
+</footer>
+
+</div>
+
+<script>
+const checkbox = document.getElementById("confirmBox");
+const buttons = document.getElementById("paymentButtons");
+const message = document.getElementById("lockMessage");
+
+checkbox.addEventListener("change", function () {
+    if (this.checked) {
+        buttons.classList.remove("locked");
+        message.style.display = "none";
+    } else {
+        buttons.classList.add("locked");
+        message.style.display = "block";
+    }
+});
+</script>
+
+</body>
+</html>
