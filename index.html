@@ -1,1 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembrokeshire Peptides</title>
+<style>
+body { font-family: Arial, sans-serif; margin:0; padding:0; background:#f9f9f9; }
+.container { max-width:800px; margin:0 auto; padding:20px; background:#fff; }
+.section { margin-bottom:25px; }
+h1,h2,h3 { color:#333; }
+input, textarea { width:100%; padding:8px; margin:5px 0; box-sizing:border-box; }
+.btn { display:inline-block; padding:10px 20px; margin:5px 5px 5px 0; background:#007bff; color:#fff; text-decoration:none; border-radius:5px; text-align:center; }
+.btn:disabled { background:#ccc; cursor:not-allowed; }
+.locked { opacity:0.5; pointer-events:none; }
+.total { font-weight:bold; margin-top:10px; }
+.checkout-form { border:1px solid #ccc; padding:15px; margin-top:15px; background:#f0f0f0; }
+.whatsapp-button { position:fixed; bottom:20px; right:20px; background:#25D366; color:#fff; padding:10px 15px; border-radius:50%; text-decoration:none; font-weight:bold; font-size:1.2em; }
+footer { text-align:center; margin-top:30px; font-size:0.9em; color:#666; }
+@media (max-width:600px) {
+    .btn { width:100%; margin-bottom:10px; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>Pembrokeshire Peptides</h1>
+
+<!-- PRODUCTS -->
+<div class="section" id="products">
+    <h2>Available Products</h2>
+    <div class="product">
+        <h3>Glow Peptide Pen</h3>
+        <p>10/10/50mg • £100</p>
+        <label>Quantity: <input type="number" class="qty" data-name="Glow Peptide Pen" data-price="100" value="0" min="0"></label>
+    </div>
+    <div class="product">
+        <h3>Retatrutide</h3>
+        <p>40mg • £210</p>
+        <label>Quantity: <input type="number" class="qty" data-name="Retatrutide" data-price="210" value="0" min="0"></label>
+    </div>
+    <p class="total">Total: £<span id="totalPrice">0</span></p>
+</div>
+
+<!-- CHECKBOX CONFIRMATION -->
+<div class="section checkbox">
+    <label>
+        <input type="checkbox" id="confirmBox">
+        I confirm that I am purchasing strictly for
+        <strong>research and development purposes only</strong> and understand
+        these products are <strong>not for human or veterinary use</strong>.
+    </label>
+</div>
+
+<!-- CTA -->
+<div class="section cta">
+    <h2>Order Enquiries</h2>
+    <div class="payment-buttons locked" id="paymentButtons">
+        <a class="btn whatsapp-btn" href="https://wa.me/447429328012">WhatsApp Enquiry</a>
+        <a class="btn paypal-btn" href="https://www.paypal.me/YOURPAYPALNAME" target="_blank">Pay with PayPal</a>
+    </div>
+    <p id="lockMessage" style="margin-top:15px;font-size:0.9em;">
+        Please confirm research use to continue.
+    </p>
+</div>
+
+<!-- CHECKOUT FORM -->
+<div class="section checkout-form" id="checkoutSection" style="display:none;">
+    <h3>Checkout</h3>
+    <form id="checkoutForm">
+        <label>Name:<input type="text" name="name" required></label>
+        <label>Email (optional):<input type="email" name="email"></label>
+        <label>Postal Address:<textarea name="address" required></textarea></label>
+        <button type="submit" class="btn">Send Order via WhatsApp</button>
+    </form>
+    <p id="checkoutMessage" style="margin-top:10px;color:green;"></p>
+</div>
+
+<!-- FULL WRITTEN DISCLAIMER -->
+<div class="section disclaimer">
+    <h3>Research Use Only Disclaimer</h3>
+    <p>All products supplied by <strong>Pembrokeshire Peptides</strong> are sold strictly for <strong>research and development purposes only</strong>.</p>
+    <p>These products are <strong>not intended for human or veterinary consumption</strong>, are not medicines, and have not been approved by any regulatory authority.</p>
+    <p>By purchasing from this website, you confirm that you are a qualified researcher and that all products will be handled and used solely within a controlled laboratory or research environment.</p>
+</div>
+
+<footer>
+    © 2026 Pembrokeshire Peptides • Research supply only
+</footer>
+
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<a class="whatsapp-button" href="https://wa.me/447429328012">WhatsApp</a>
+
+<script>
+// Checkbox unlock
+const checkbox = document.getElementById("confirmBox");
+const buttons = document.getElementById("paymentButtons");
+const message = document.getElementById("lockMessage");
+const checkoutSection = document.getElementById("checkoutSection");
+
+checkbox.addEventListener("change", function () {
+    if (this.checked) {
+        buttons.classList.remove("locked");
+        message.style.display = "none";
+        checkoutSection.style.display = "block";
+    } else {
+        buttons.classList.add("locked");
+        message.style.display = "block";
+        checkoutSection.style.display = "none";
+    }
+});
+
+// Cart calculation
+const qtyInputs = document.querySelectorAll(".qty");
+const totalPriceEl = document.getElementById("totalPrice");
+
+function updateTotal() {
+    let total = 0;
+    qtyInputs.forEach(input=>{
+        total += parseInt(input.value || 0) * parseFloat(input.dataset.price);
+    });
+    totalPriceEl.textContent = total;
+}
+qtyInputs.forEach(input=>{ input.addEventListener("input", updateTotal); });
+
+// WhatsApp Checkout
+const checkoutForm = document.getElementById("checkoutForm");
+const checkoutMessage = document.getElementById("checkoutMessage");
+const WHATSAPP_NUMBER = "447477210856";
+
+checkoutForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const orderItems = [];
+    qtyInputs.forEach(input=>{
+        const qty = parseInt(input.value);
+        if(qty>0){ orderItems.push(`${input.dataset.name} x${qty}`); }
+    });
+
+    if(orderItems.length === 0){
+        alert("Please select at least one product.");
+        return;
+    }
+
+    const orderNumber = "PP-" + new Date().toISOString().replace(/[-T:.Z]/g,"").slice(0,12) + "-" + Math.floor(Math.random()*1000);
+
+    const formData = new FormData(checkoutForm);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const address = formData.get("address");
+
+    let messageText = `*Pembrokeshire Peptides Order*%0A`;
+    messageText += `---------------------------%0A`;
+    messageText += `*Order #:* ${orderNumber}%0A%0A`;
+    messageText += `*Products:*%0A`;
+    orderItems.forEach(item=>{ messageText += `- ${item}%0A`; });
+    messageText += `%0A*Total:* £${totalPriceEl.textContent}%0A%0A`;
+    messageText += `*Customer Details:*%0AName: ${name}%0AAddress: ${address}%0A`;
+    if(email) messageText += `Email: ${email}%0A`;
+    messageText += `---------------------------%0A*Research Use Only*`;
+
+    alert(`Your order (#${orderNumber}) will now be sent via WhatsApp.`);
+
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${messageText}`;
+    window.open(waLink,"_blank");
+
+    checkoutMessage.textContent = `Your order (#${orderNumber}) is being sent to WhatsApp.`;
+    checkoutForm.reset();
+    updateTotal();
+});
+</script>
+
+</body>
+</html>
 
