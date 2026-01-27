@@ -160,6 +160,11 @@ footer {
         <p><em>Strengths: 10mg / 10mg / 50mg</em></p>
         <p><em>Advanced Cellular Repair for Hair and Skin</em></p>
         <p><strong>£100</strong></p>
+
+          <label>Quantity:
+    <input type="number" class="qty" data-name="Glow Peptide Pen" data-price="100" value="0" min="0">
+</label>
+
     </div>
 
     <div class="product">
@@ -168,7 +173,14 @@ footer {
         <p><em>40mg vial</em></p>
         <p><em>Advanced Triple Agonist Weight loss</em></p>
         <p><strong>£210</strong></p>
-    </div>
+
+          <label>Quantity:
+    <input type="number" class="qty" data-name="Retatrutide" data-price="210" value="0" min="0">
+</label>
+
+    <button id="goCheckout" class="btn whatsapp-btn" style="margin-top:15px;">Go to Checkout</button>
+
+</div>
 
     <p><strong>Payment methods:</strong></p>
     <ul>
@@ -266,6 +278,33 @@ checkbox.addEventListener("change", function () {
     }
 });
 </script>
+// Cart functionality
+const qtyInputs = document.querySelectorAll(".qty");
+const checkoutBtn = document.getElementById("goCheckout");
+
+checkoutBtn.addEventListener("click", () => {
+    const cart = [];
+    qtyInputs.forEach(input => {
+        const qty = parseInt(input.value);
+        if (qty > 0) {
+            cart.push({
+                name: input.dataset.name,
+                price: input.dataset.price,
+                qty: qty
+            });
+        }
+    });
+    if (cart.length === 0) {
+        alert("Please select at least one product to checkout.");
+        return;
+    }
+    // Save cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    // Redirect to checkout page
+    window.location.href = "checkout.html";
+});
+</script>
+
 
 </body>
 </html>
