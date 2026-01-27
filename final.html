@@ -122,15 +122,9 @@ I confirm that I am purchasing strictly for <strong>research and development pur
 const checkbox = document.getElementById("confirmBox");
 const buttons = document.getElementById("paymentButtons");
 const message = document.getElementById("lockMessage");
-
 checkbox.addEventListener("change", function() {
-    if(this.checked) {
-        buttons.classList.remove("locked");
-        message.style.display = "none";
-    } else {
-        buttons.classList.add("locked");
-        message.style.display = "block";
-    }
+    if(this.checked) { buttons.classList.remove("locked"); message.style.display = "none"; }
+    else { buttons.classList.add("locked"); message.style.display = "block"; }
 });
 
 // Cart functionality
@@ -141,25 +135,16 @@ checkoutBtn.addEventListener("click", () => {
     const cart = [];
     qtyInputs.forEach(input => {
         const qty = parseInt(input.value);
-        if(qty > 0){
-            cart.push({
-                name: input.dataset.name,
-                price: parseFloat(input.dataset.price),
-                qty: qty
-            });
+        const price = parseFloat(input.dataset.price);
+        const name = input.dataset.name;
+        if(qty > 0 && name && !isNaN(price)){
+            cart.push({ name: name, price: price.toFixed(2), qty: qty.toString() });
         }
     });
-
-    if(cart.length === 0){
-        alert("Please select at least one product to checkout.");
-        return;
-    }
-
-    // Save cart to localStorage
+    if(cart.length === 0){ alert("Please select at least one product to checkout."); return; }
     localStorage.setItem("cart", JSON.stringify(cart));
     window.location.href = "checkout.html";
 });
 </script>
-
 </body>
 </html>
