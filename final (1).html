@@ -278,33 +278,6 @@ checkbox.addEventListener("change", function () {
     }
 });
 </script>
-// Cart functionality
-const qtyInputs = document.querySelectorAll(".qty");
-const checkoutBtn = document.getElementById("goCheckout");
-
-checkoutBtn.addEventListener("click", () => {
-    const cart = [];
-    qtyInputs.forEach(input => {
-        const qty = parseInt(input.value);
-        if (qty > 0) {
-            cart.push({
-                name: input.dataset.name,
-                price: input.dataset.price,
-                qty: qty
-            });
-        }
-    });
-    if (cart.length === 0) {
-        alert("Please select at least one product to checkout.");
-        return;
-    }
-    // Save cart to localStorage
-    localStorage.setItem("cart", JSON.stringify(cart));
-    // Redirect to checkout page
-    window.location.href = "checkout.html";
-});
-</script>
-
 
 </body>
 </html>
