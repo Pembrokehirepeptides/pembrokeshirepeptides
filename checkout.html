@@ -55,6 +55,11 @@ const WHATSAPP_NUMBER = "447429328012";
 
 checkoutForm.addEventListener("submit", function(e){
     e.preventDefault();
+    if(cart.length === 0){
+        alert("Cart is empty!");
+        return;
+    }
+
     const formData = new FormData(checkoutForm);
     const name = formData.get("name");
     const email = formData.get("email");
@@ -65,20 +70,23 @@ checkoutForm.addEventListener("submit", function(e){
     messageText += `---------------------------%0A`;
     messageText += `*Order #:* ${orderNumber}%0A%0A`;
     messageText += `*Products:*%0A`;
+
     cart.forEach(item => {
-        messageText += `- ${item.name} x${item.qty} (£${item.price*item.qty})%0A`;
+        const itemTotal = parseFloat(item.price) * parseInt(item.qty);
+        messageText += `- ${item.name} x${item.qty} (£${itemTotal})%0A`;
     });
+
     messageText += `%0A*Total:* £${total}%0A%0A`;
     messageText += `*Customer Details:*%0AName: ${name}%0AAddress: ${address}%0A`;
     if(email) messageText += `Email: ${email}%0A`;
     messageText += `---------------------------%0A*Research Use Only*`;
 
-    alert(`Your order (#${orderNumber}) will now be sent via WhatsApp.`);
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${messageText}`;
     window.open(waLink,"_blank");
 
     checkoutMessage.textContent = `Your order (#${orderNumber}) is being sent to WhatsApp.`;
     localStorage.removeItem("cart");
+});
 });
 </script>
 </body>
