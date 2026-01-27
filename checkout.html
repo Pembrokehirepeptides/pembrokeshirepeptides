@@ -39,24 +39,28 @@ input, textarea { width:100%; padding:8px; margin:5px 0; box-sizing:border-box; 
 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 const cartTable = document.getElementById("cartTable");
 const totalPriceEl = document.getElementById("totalPrice");
-let total = 0;
-
-cart.forEach(item => {
-    const row = document.createElement("tr");
-    row.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>£${item.price*item.qty}</td>`;
-    cartTable.appendChild(row);
-    total += item.price * item.qty;
-});
-totalPriceEl.textContent = total;
-
 const checkoutForm = document.getElementById("checkoutForm");
 const checkoutMessage = document.getElementById("checkoutMessage");
-const WHATSAPP_NUMBER = "447429328012";
+const WHATSAPP_NUMBER = "447477210856";
 
+// Render cart table and calculate total
+let total = 0;
+cart.forEach(item => {
+    const row = document.createElement("tr");
+    const itemPrice = parseFloat(item.price);
+    const itemQty = parseInt(item.qty);
+    const itemTotal = itemPrice * itemQty;
+    row.innerHTML = `<td>${item.name}</td><td>${itemQty}</td><td>£${itemTotal.toFixed(2)}</td>`;
+    cartTable.appendChild(row);
+    total += itemTotal;
+});
+totalPriceEl.textContent = total.toFixed(2);
+
+// Form submit
 checkoutForm.addEventListener("submit", function(e){
     e.preventDefault();
     if(cart.length === 0){
-        alert("Cart is empty!");
+        alert("Your cart is empty!");
         return;
     }
 
@@ -66,27 +70,32 @@ checkoutForm.addEventListener("submit", function(e){
     const address = formData.get("address");
     const orderNumber = "PP-" + new Date().toISOString().replace(/[-T:.Z]/g,"").slice(0,12) + "-" + Math.floor(Math.random()*1000);
 
+    // Build WhatsApp message
     let messageText = `*Pembrokeshire Peptides Order*%0A`;
     messageText += `---------------------------%0A`;
     messageText += `*Order #:* ${orderNumber}%0A%0A`;
     messageText += `*Products:*%0A`;
 
+    let messageTotal = 0;
     cart.forEach(item => {
-        const itemTotal = parseFloat(item.price) * parseInt(item.qty);
-        messageText += `- ${item.name} x${item.qty} (£${itemTotal})%0A`;
+        const qty = parseInt(item.qty);
+        const price = parseFloat(item.price);
+        const itemTotal = qty * price;
+        messageText += `- ${item.name} x${qty} (£${itemTotal.toFixed(2)})%0A`;
+        messageTotal += itemTotal;
     });
 
-    messageText += `%0A*Total:* £${total}%0A%0A`;
+    messageText += `%0A*Total:* £${messageTotal.toFixed(2)}%0A%0A`;
     messageText += `*Customer Details:*%0AName: ${name}%0AAddress: ${address}%0A`;
     if(email) messageText += `Email: ${email}%0A`;
     messageText += `---------------------------%0A*Research Use Only*`;
 
+    // Open WhatsApp
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${messageText}`;
     window.open(waLink,"_blank");
 
     checkoutMessage.textContent = `Your order (#${orderNumber}) is being sent to WhatsApp.`;
     localStorage.removeItem("cart");
-});
 });
 </script>
 </body>
