@@ -5,27 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pembrokeshire Peptides | Research Peptides UK</title>
 <style>
-body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f4f7f8; color: #222; }
-.header { height: 300px; background-image: linear-gradient(rgba(0,70,110,0.55), rgba(0,70,110,0.55)), url("images/logo.jpg"); background-repeat: no-repeat; background-position: center; background-size: contain; display: flex; align-items: center; justify-content: center; }
-.header-text { color: #fff; text-align: center; }
-.container { max-width: 900px; margin: auto; background: #fff; padding: 30px 20px; }
-.section { margin-top: 40px; }
-.products { background: #eef3f6; padding: 25px; border-radius: 10px; }
-.product { text-align: center; margin-bottom: 35px; }
-.product img { max-width: 300px; width: 100%; height: auto; margin: 12px auto; display: block; border-radius: 6px; }
-.checkbox { background: #fff3cd; border: 1px solid #ffeeba; padding: 20px; border-radius: 8px; font-size: 0.95em; }
-.checkbox input { margin-right: 8px; }
-.cta { background: linear-gradient(135deg, #003d66, #006699); color: #fff; padding: 35px; text-align: center; border-radius: 10px; }
-.payment-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
-.locked { opacity: 0.4; pointer-events: none; }
-.btn { padding: 12px 22px; border-radius: 6px; text-decoration: none; font-weight: bold; color: #fff; cursor: pointer; }
-.whatsapp-btn { background: #25D366; }
-.paypal-btn { background: #0070ba; }
-.disclaimer { background: #fafafa; border: 1px solid #ddd; padding: 25px; border-radius: 8px; font-size: 0.9em; margin-top: 40px; }
-footer { text-align: center; font-size: 0.85em; margin-top: 40px; color: #666; }
-.whatsapp-button { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: #fff; padding: 14px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.25); z-index: 999; }
-.qty { width: 60px; padding: 5px; margin-top:5px; text-align:center; border-radius:4px; border:1px solid #ccc; }
-#goCheckout { margin-top: 10px; }
+body { font-family: Arial, Helvetica, sans-serif; margin:0; background:#f4f7f8; color:#222; }
+.header { height:300px; background-image: linear-gradient(rgba(0,70,110,0.55), rgba(0,70,110,0.55)), url("images/logo.jpg"); background-repeat:no-repeat; background-position:center; background-size:contain; display:flex; align-items:center; justify-content:center; }
+.header-text { color:#fff; text-align:center; }
+.container { max-width:900px; margin:auto; background:#fff; padding:30px 20px; }
+.section { margin-top:40px; }
+.products { background:#eef3f6; padding:25px; border-radius:10px; }
+.product { text-align:center; margin-bottom:35px; }
+.product img { max-width:300px; width:100%; height:auto; margin:12px auto; display:block; border-radius:6px; }
+.checkbox { background:#fff3cd; border:1px solid #ffeeba; padding:20px; border-radius:8px; font-size:0.95em; }
+.checkbox input { margin-right:8px; }
+.cta { background:linear-gradient(135deg,#003d66,#006699); color:#fff; padding:35px; text-align:center; border-radius:10px; }
+.payment-buttons { display:flex; gap:15px; justify-content:center; flex-wrap:wrap; margin-top:20px; }
+.locked { opacity:0.4; pointer-events:none; }
+.btn { padding:12px 22px; border-radius:6px; text-decoration:none; font-weight:bold; color:#fff; cursor:pointer; }
+.whatsapp-btn { background:#25D366; }
+.paypal-btn { background:#0070ba; }
+.disclaimer { background:#fafafa; border:1px solid #ddd; padding:25px; border-radius:8px; font-size:0.9em; margin-top:40px; }
+footer { text-align:center; font-size:0.85em; margin-top:40px; color:#666; }
+.whatsapp-button { position:fixed; bottom:20px; right:20px; background:#25D366; color:#fff; padding:14px 20px; border-radius:50px; text-decoration:none; font-weight:bold; box-shadow:0 4px 8px rgba(0,0,0,0.25); z-index:999; }
+.qty { width:60px; padding:5px; margin-top:5px; text-align:center; border-radius:4px; border:1px solid #ccc; }
+#goCheckout { margin-top:10px; }
 </style>
 </head>
 <body>
@@ -118,18 +118,19 @@ I confirm that I am purchasing strictly for <strong>research and development pur
 <a class="whatsapp-button" href="https://wa.me/447429328012">WhatsApp</a>
 
 <script>
+// Confirm checkbox logic
 const checkbox = document.getElementById("confirmBox");
 const buttons = document.getElementById("paymentButtons");
 const message = document.getElementById("lockMessage");
 
 checkbox.addEventListener("change", function() {
-if(this.checked) {
-    buttons.classList.remove("locked");
-    message.style.display = "none";
-} else {
-    buttons.classList.add("locked");
-    message.style.display = "block";
-}
+    if(this.checked) {
+        buttons.classList.remove("locked");
+        message.style.display = "none";
+    } else {
+        buttons.classList.add("locked");
+        message.style.display = "block";
+    }
 });
 
 // Cart functionality
@@ -137,24 +138,28 @@ const qtyInputs = document.querySelectorAll(".qty");
 const checkoutBtn = document.getElementById("goCheckout");
 
 checkoutBtn.addEventListener("click", () => {
-  const cart = [];
-  qtyInputs.forEach(input => {
-    const qty = parseInt(input.value);
-    if(qty > 0){
-      cart.push({
-        name: input.dataset.name,
-        price: input.dataset.price,
-        qty: qty
-      });
+    const cart = [];
+    qtyInputs.forEach(input => {
+        const qty = parseInt(input.value);
+        if(qty > 0){
+            cart.push({
+                name: input.dataset.name,
+                price: parseFloat(input.dataset.price),
+                qty: qty
+            });
+        }
+    });
+
+    if(cart.length === 0){
+        alert("Please select at least one product to checkout.");
+        return;
     }
-  });
-  if(cart.length === 0){
-    alert("Please select at least one product to checkout.");
-    return;
-  }
-  localStorage.setItem("cart", JSON.stringify(cart));
-  window.location.href = "checkout.html";
+
+    // Save cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(cart));
+    window.location.href = "checkout.html";
 });
 </script>
+
 </body>
 </html>
