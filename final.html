@@ -3,269 +3,158 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
 <title>Pembrokeshire Peptides | Research Peptides UK</title>
-
 <style>
-body {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    background: #f4f7f8;
-    color: #222;
-}
-
-.header {
-    height: 300px;
-    background-image:
-        linear-gradient(rgba(0,70,110,0.55), rgba(0,70,110,0.55)),
-        url("images/logo.jpg");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.header-text {
-    color: #fff;
-    text-align: center;
-}
-
-.container {
-    max-width: 900px;
-    margin: auto;
-    background: #fff;
-    padding: 30px 20px;
-}
-
-.section {
-    margin-top: 40px;
-}
-
-.products {
-    background: #eef3f6;
-    padding: 25px;
-    border-radius: 10px;
-}
-
-.product {
-    text-align: center;
-    margin-bottom: 35px;
-}
-
-.product img {
-    max-width: 300px;
-    width: 100%;
-    height: auto;
-    margin: 12px auto;
-    display: block;
-    border-radius: 6px;
-}
-
-.checkbox {
-    background: #fff3cd;
-    border: 1px solid #ffeeba;
-    padding: 20px;
-    border-radius: 8px;
-    font-size: 0.95em;
-}
-
-.checkbox input {
-    margin-right: 8px;
-}
-
-.cta {
-    background: linear-gradient(135deg, #003d66, #006699);
-    color: #fff;
-    padding: 35px;
-    text-align: center;
-    border-radius: 10px;
-}
-
-.payment-buttons {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 20px;
-}
-
-.locked {
-    opacity: 0.4;
-    pointer-events: none;
-}
-
-.btn {
-    padding: 12px 22px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: bold;
-    color: #fff;
-}
-
+body { font-family: Arial, Helvetica, sans-serif; margin: 0; background: #f4f7f8; color: #222; }
+.header { height: 300px; background-image: linear-gradient(rgba(0,70,110,0.55), rgba(0,70,110,0.55)), url("images/logo.jpg"); background-repeat: no-repeat; background-position: center; background-size: contain; display: flex; align-items: center; justify-content: center; }
+.header-text { color: #fff; text-align: center; }
+.container { max-width: 900px; margin: auto; background: #fff; padding: 30px 20px; }
+.section { margin-top: 40px; }
+.products { background: #eef3f6; padding: 25px; border-radius: 10px; }
+.product { text-align: center; margin-bottom: 35px; }
+.product img { max-width: 300px; width: 100%; height: auto; margin: 12px auto; display: block; border-radius: 6px; }
+.checkbox { background: #fff3cd; border: 1px solid #ffeeba; padding: 20px; border-radius: 8px; font-size: 0.95em; }
+.checkbox input { margin-right: 8px; }
+.cta { background: linear-gradient(135deg, #003d66, #006699); color: #fff; padding: 35px; text-align: center; border-radius: 10px; }
+.payment-buttons { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+.locked { opacity: 0.4; pointer-events: none; }
+.btn { padding: 12px 22px; border-radius: 6px; text-decoration: none; font-weight: bold; color: #fff; cursor: pointer; }
 .whatsapp-btn { background: #25D366; }
 .paypal-btn { background: #0070ba; }
-
-.disclaimer {
-    background: #fafafa;
-    border: 1px solid #ddd;
-    padding: 25px;
-    border-radius: 8px;
-    font-size: 0.9em;
-    margin-top: 40px;
-}
-
-footer {
-    text-align: center;
-    font-size: 0.85em;
-    margin-top: 40px;
-    color: #666;
-}
-
-.whatsapp-button {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #25D366;
-    color: #fff;
-    padding: 14px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: bold;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.25);
-    z-index: 999;
-}
+.disclaimer { background: #fafafa; border: 1px solid #ddd; padding: 25px; border-radius: 8px; font-size: 0.9em; margin-top: 40px; }
+footer { text-align: center; font-size: 0.85em; margin-top: 40px; color: #666; }
+.whatsapp-button { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: #fff; padding: 14px 20px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.25); z-index: 999; }
+.qty { width: 60px; padding: 5px; margin-top:5px; text-align:center; border-radius:4px; border:1px solid #ccc; }
+#goCheckout { margin-top: 10px; }
 </style>
 </head>
-
 <body>
 
 <div class="header">
-    <div class="header-text">
-        <h1>Pembrokeshire Peptides</h1>
-        <p>Research peptides • UK only</p>
-    </div>
+  <div class="header-text">
+    <h1>Pembrokeshire Peptides</h1>
+    <p>Research peptides • UK only</p>
+  </div>
 </div>
 
 <div class="container">
 
 <!-- PRODUCTS -->
 <div class="section products">
-    <h2>Products & Pricing</h2>
+<h2>Products & Pricing</h2>
 
-    <div class="product">
-        <h3>Glow Peptide Pen</h3>
-        <img src="images/glow-pen.jpg" alt="Glow Peptide Pen">
-        <p><em>Strengths: 10mg / 10mg / 50mg</em></p>
-        <p><em>Advanced Cellular Repair for Hair and Skin</em></p>
-        <p><strong>£100</strong></p>
-    </div>
+<div class="product">
+  <h3>Glow Peptide Pen</h3>
+  <img src="images/glow-pen.jpg" alt="Glow Peptide Pen">
+  <p><em>Strengths: 10mg / 10mg / 50mg</em></p>
+  <p><em>Advanced Cellular Repair for Hair and Skin</em></p>
+  <p><strong>£100</strong></p>
+  <label>Quantity:
+    <input type="number" class="qty" data-name="Glow Peptide Pen" data-price="100" value="0" min="0">
+  </label>
+</div>
 
-    <div class="product">
-        <h3>Retatrutide</h3>
-        <img src="images/retatrutide.jpg" alt="Retatrutide">
-        <p><em>40mg vial</em></p>
-        <p><em>Advanced Triple Agonist Weight loss</em></p>
-        <p><strong>£210</strong></p>
-    </div>
+<div class="product">
+  <h3>Retatrutide</h3>
+  <img src="images/retatrutide.jpg" alt="Retatrutide">
+  <p><em>40mg vial</em></p>
+  <p><em>Advanced Triple Agonist Weight loss</em></p>
+  <p><strong>£210</strong></p>
+  <label>Quantity:
+    <input type="number" class="qty" data-name="Retatrutide" data-price="210" value="0" min="0">
+  </label>
+</div>
 
-    <p><strong>Payment methods:</strong></p>
-    <ul>
-        <li>Cryptocurrency</li>
-        <li>Cash on collection</li>
-        <li>PayPal available - Please use a neutral reference when sending PayPal payments.</li>
-    </ul>
+<p><strong>Payment methods:</strong></p>
+<ul>
+<li>Cryptocurrency</li>
+<li>Cash on collection</li>
+<li>PayPal available - Please use a neutral reference when sending PayPal payments.</li>
+</ul>
+
+<button id="goCheckout" class="btn whatsapp-btn">Go to Checkout</button>
 </div>
 
 <!-- DELIVERY -->
 <div class="section">
-    <h2>Delivery & Collection</h2>
-    <ul>
-        <li>📦 UK postage available £10 Flat Rate</li>
-        <li>🤝 Collection available in Pembrokeshire</li>
-        <li>🤝 Whatsapp Us</li>
-        <li>More Products Coming Soon - Wolverine Stack (BPC157 and TB500 and NAD+</li>
-    </ul>
+<h2>Delivery & Collection</h2>
+<ul>
+<li>📦 UK postage available £10 Flat Rate</li>
+<li>🤝 Collection available in Pembrokeshire</li>
+<li>🤝 Whatsapp Us</li>
+<li>More Products Coming Soon - Wolverine Stack (BPC157 and TB500 and NAD+)</li>
+</ul>
 </div>
 
 <!-- CHECKBOX CONFIRMATION -->
 <div class="section checkbox">
-    <label>
-        <input type="checkbox" id="confirmBox">
-        I confirm that I am purchasing strictly for
-        <strong>research and development purposes only</strong> and understand
-        these products are <strong>not for human or veterinary use</strong>.
-    </label>
+<label>
+<input type="checkbox" id="confirmBox">
+I confirm that I am purchasing strictly for <strong>research and development purposes only</strong> and understand these products are <strong>not for human or veterinary use</strong>.
+</label>
 </div>
 
 <!-- CTA -->
 <div class="section cta">
-    <h2>Order Enquiries</h2>
-    <div class="payment-buttons locked" id="paymentButtons">
-        <a class="btn whatsapp-btn"
-           href="https://wa.me/447429328012">
-           WhatsApp Enquiry
-        </a>
+<h2>Order Enquiries</h2>
+<div class="payment-buttons locked" id="paymentButtons">
+<a class="btn whatsapp-btn" href="https://wa.me/447429328012">WhatsApp Enquiry</a>
+<a class="btn paypal-btn" href="https://www.paypal.me/YOURPAYPALNAME" target="_blank">Pay with PayPal</a>
+</div>
+<p id="lockMessage" style="margin-top:15px;font-size:0.9em;">Please confirm research use to continue.</p>
+</div>
 
-        <a class="btn paypal-btn"
-           href="https://www.paypal.me/YOURPAYPALNAME"
-           target="_blank">
-           Pay with PayPal
-        </a>
-    </div>
-
-    <p id="lockMessage" style="margin-top:15px;font-size:0.9em;">
-        Please confirm research use to continue.
-    </p>
-    </div>
-     
-
-<!-- FULL WRITTEN DISCLAIMER -->
+<!-- DISCLAIMER -->
 <div class="section disclaimer">
-    <h3>Research Use Only Disclaimer</h3>
-    <p>
-        All products supplied by <strong>Pembrokeshire Peptides</strong> are sold
-        strictly for <strong>research and development purposes only</strong>.
-    </p>
-    <p>
-        These products are <strong>not intended for human or veterinary consumption</strong>,
-        are not medicines, and have not been approved by any regulatory authority.
-    </p>
-    <p>
-        By purchasing from this website, you confirm that you are a qualified
-        researcher and that all products will be handled and used solely within
-        a controlled laboratory or research environment.
-    </p>
+<h3>Research Use Only Disclaimer</h3>
+<p>All products supplied by <strong>Pembrokeshire Peptides</strong> are sold strictly for <strong>research and development purposes only</strong>.</p>
+<p>These products are <strong>not intended for human or veterinary consumption</strong>, are not medicines, and have not been approved by any regulatory authority.</p>
+<p>By purchasing from this website, you confirm that you are a qualified researcher and that all products will be handled and used solely within a controlled laboratory or research environment.</p>
 </div>
 
-<footer>
-    © 2026 Pembrokeshire Peptides • Research supply only
-</footer>
-
+<footer>© 2026 Pembrokeshire Peptides • Research supply only</footer>
 </div>
 
-<!-- FLOATING WHATSAPP -->
-<a class="whatsapp-button"
-   href="https://wa.me/447429328012">
-   WhatsApp
-</a>
+<a class="whatsapp-button" href="https://wa.me/447429328012">WhatsApp</a>
 
 <script>
 const checkbox = document.getElementById("confirmBox");
 const buttons = document.getElementById("paymentButtons");
 const message = document.getElementById("lockMessage");
 
-checkbox.addEventListener("change", function () {
-    if (this.checked) {
-        buttons.classList.remove("locked");
-        message.style.display = "none";
-    } else {
-        buttons.classList.add("locked");
-        message.style.display = "block";
+checkbox.addEventListener("change", function() {
+if(this.checked) {
+    buttons.classList.remove("locked");
+    message.style.display = "none";
+} else {
+    buttons.classList.add("locked");
+    message.style.display = "block";
+}
+});
+
+// Cart functionality
+const qtyInputs = document.querySelectorAll(".qty");
+const checkoutBtn = document.getElementById("goCheckout");
+
+checkoutBtn.addEventListener("click", () => {
+  const cart = [];
+  qtyInputs.forEach(input => {
+    const qty = parseInt(input.value);
+    if(qty > 0){
+      cart.push({
+        name: input.dataset.name,
+        price: input.dataset.price,
+        qty: qty
+      });
     }
+  });
+  if(cart.length === 0){
+    alert("Please select at least one product to checkout.");
+    return;
+  }
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "checkout.html";
 });
 </script>
-
 </body>
 </html>
