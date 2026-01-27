@@ -41,26 +41,22 @@ const cartTable = document.getElementById("cartTable");
 const totalPriceEl = document.getElementById("totalPrice");
 const checkoutForm = document.getElementById("checkoutForm");
 const checkoutMessage = document.getElementById("checkoutMessage");
-const WHATSAPP_NUMBER = "447477210856";
+const WHATSAPP_NUMBER = "447429328012";
 
-// Render cart table and calculate total
 let total = 0;
 cart.forEach(item => {
     const row = document.createElement("tr");
-    const itemPrice = parseFloat(item.price);
-    const itemQty = parseInt(item.qty);
-    const itemTotal = itemPrice * itemQty;
-    row.innerHTML = `<td>${item.name}</td><td>${itemQty}</td><td>£${itemTotal.toFixed(2)}</td>`;
+    const itemTotal = item.price * item.qty;
+    row.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>£${itemTotal.toFixed(2)}</td>`;
     cartTable.appendChild(row);
     total += itemTotal;
 });
 totalPriceEl.textContent = total.toFixed(2);
 
-// Form submit
 checkoutForm.addEventListener("submit", function(e){
     e.preventDefault();
     if(cart.length === 0){
-        alert("Your cart is empty!");
+        alert("Cart is empty!");
         return;
     }
 
@@ -68,9 +64,8 @@ checkoutForm.addEventListener("submit", function(e){
     const name = formData.get("name");
     const email = formData.get("email");
     const address = formData.get("address");
-    const orderNumber = "PP-" + new Date().toISOString().replace(/[-T:.Z]/g,"").slice(0,12) + "-" + Math.floor(Math.random()*1000);
+    const orderNumber = "PP-" + new Date().getTime(); // unique order number
 
-    // Build WhatsApp message
     let messageText = `*Pembrokeshire Peptides Order*%0A`;
     messageText += `---------------------------%0A`;
     messageText += `*Order #:* ${orderNumber}%0A%0A`;
@@ -78,10 +73,8 @@ checkoutForm.addEventListener("submit", function(e){
 
     let messageTotal = 0;
     cart.forEach(item => {
-        const qty = parseInt(item.qty);
-        const price = parseFloat(item.price);
-        const itemTotal = qty * price;
-        messageText += `- ${item.name} x${qty} (£${itemTotal.toFixed(2)})%0A`;
+        const itemTotal = item.price * item.qty;
+        messageText += `- ${item.name} x${item.qty} (£${itemTotal.toFixed(2)})%0A`;
         messageTotal += itemTotal;
     });
 
