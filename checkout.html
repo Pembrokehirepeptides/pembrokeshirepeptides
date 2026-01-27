@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembrokeshire Peptides Checkout</title>
+<style>
+body { font-family: Arial, sans-serif; background:#f4f7f8; margin:0; padding:20px; }
+.container { max-width:600px; margin:auto; background:#fff; padding:20px; }
+h1 { text-align:center; }
+table { width:100%; border-collapse: collapse; margin-bottom:20px; }
+th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+th { background:#eef3f6; }
+input, textarea { width:100%; padding:8px; margin:5px 0; box-sizing:border-box; }
+.btn { display:inline-block; padding:10px 20px; background:#25D366; color:#fff; text-decoration:none; border-radius:5px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Checkout</h1>
+
+<table id="cartTable">
+<tr><th>Product</th><th>Qty</th><th>Price (£)</th></tr>
+</table>
+
+<p>Total: £<span id="totalPrice">0</span></p>
+
+<h2>Customer Details</h2>
+<form id="checkoutForm">
+    <label>Name:<input type="text" name="name" required></label>
+    <label>Email (optional):<input type="email" name="email"></label>
+    <label>Postal Address:<textarea name="address" required></textarea></label>
+    <button type="submit" class="btn">Send Order via WhatsApp</button>
+</form>
+<p id="checkoutMessage" style="color:green;margin-top:10px;"></p>
+</div>
+
+<script>
+// Load cart from localStorage
+const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+const cartTable = document.getElementById("cartTable");
+const totalPriceEl = document.getElementById("totalPrice");
+let total = 0;
+
+cart.forEach(item => {
+    const row = document.createElement("tr");
+    row.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>£${item.price*item.qty}</td>`;
+    cartTable.appendChild(row);
+    total += item.price * item.qty;
+});
+totalPriceEl.textContent = total;
+
+// WhatsApp order
+const checkoutForm = document.getElementById("checkoutForm");
+const checkoutMessage = document.getElementById("checkoutMessage");
+const WHATSAPP_NUMBER = "447477210856";
+
+checkoutForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    const formData = new FormData(checkoutForm);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const address = formData.get("address");
+    const orderNumber = "PP-" + new Date().toISOString().replace(/[-T:.Z]/g,"").slice(0,12) + "-" + Math.floor(Math.random()*1000);
+
+    let messageText = `*Pembrokeshire Peptides Order*%0A`;
+    messageText += `---------------------------%0A`;
+    messageText += `*Order #:* ${orderNumber}%0A%0A`;
+    messageText += `*Products:*%0A`;
+    cart.forEach(item => {
+        messageText += `- ${item.name} x${item.qty} (£${item.price*item.qty})%0A`;
+    });
+    messageText += `%0A*Total:* £${total}%0A%0A`;
+    messageText += `*Customer Details:*%0AName: ${name}%0AAddress: ${address}%0A`;
+    if(email) messageText += `Email: ${email}%0A`;
+    messageText += `---------------------------%0A*Research Use Only*`;
+
+    alert(`Your order (#${orderNumber}) will now be sent via WhatsApp.`);
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${messageText}`;
+    window.open(waLink,"_blank");
+
+    checkoutMessage.textContent = `Your order (#${orderNumber}) is being sent to WhatsApp.`;
+    localStorage.removeItem("cart");
+});
+</script>
+</body>
+</html>
