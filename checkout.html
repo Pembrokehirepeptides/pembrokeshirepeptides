@@ -27,16 +27,15 @@ input, textarea { width:100%; padding:8px; margin:5px 0; box-sizing:border-box; 
 
 <h2>Customer Details</h2>
 <form id="checkoutForm">
-    <label>Name:<input type="text" name="name" required></label>
-    <label>Email (optional):<input type="email" name="email"></label>
-    <label>Postal Address:<textarea name="address" required></textarea></label>
-    <button type="submit" class="btn">Send Order via WhatsApp</button>
+<label>Name:<input type="text" name="name" required></label>
+<label>Email (optional):<input type="email" name="email"></label>
+<label>Postal Address:<textarea name="address" required></textarea></label>
+<button type="submit" class="btn">Send Order via WhatsApp</button>
 </form>
 <p id="checkoutMessage" style="color:green;margin-top:10px;"></p>
 </div>
 
 <script>
-// Load cart from localStorage
 const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 const cartTable = document.getElementById("cartTable");
 const totalPriceEl = document.getElementById("totalPrice");
@@ -50,10 +49,9 @@ cart.forEach(item => {
 });
 totalPriceEl.textContent = total;
 
-// WhatsApp order
 const checkoutForm = document.getElementById("checkoutForm");
 const checkoutMessage = document.getElementById("checkoutMessage");
-const WHATSAPP_NUMBER = "447477210856";
+const WHATSAPP_NUMBER = "447429328012";
 
 checkoutForm.addEventListener("submit", function(e){
     e.preventDefault();
