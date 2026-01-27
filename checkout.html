@@ -45,32 +45,27 @@ const checkoutMessage = document.getElementById("checkoutMessage");
 const WHATSAPP_NUMBER = "447429328012";
 
 let total = 0;
-
-// Render cart table
 cart.forEach(item => {
     const row = document.createElement("tr");
-    const itemTotal = item.price * item.qty;
-    row.innerHTML = `<td>${item.name}</td><td>${item.qty}</td><td>£${itemTotal.toFixed(2)}</td>`;
+    const qty = parseInt(item.qty) || 0;
+    const price = parseFloat(item.price) || 0;
+    const itemTotal = qty * price;
+    row.innerHTML = `<td>${item.name}</td><td>${qty}</td><td>£${itemTotal.toFixed(2)}</td>`;
     cartTable.appendChild(row);
     total += itemTotal;
 });
 totalPriceEl.textContent = total.toFixed(2);
 
-// Form submit
 checkoutForm.addEventListener("submit", function(e){
     e.preventDefault();
-    if(cart.length === 0){
-        alert("Cart is empty!");
-        return;
-    }
+    if(cart.length === 0){ alert("Cart is empty!"); return; }
 
     const formData = new FormData(checkoutForm);
     const name = formData.get("name");
     const email = formData.get("email");
     const address = formData.get("address");
-    const orderNumber = "PP-" + new Date().getTime(); // unique order number
+    const orderNumber = "PP-" + new Date().getTime();
 
-    // Build WhatsApp message
     let messageText = `*Pembrokeshire Peptides Order*\n`;
     messageText += `---------------------------\n`;
     messageText += `*Order #:* ${orderNumber}\n\n`;
@@ -78,8 +73,10 @@ checkoutForm.addEventListener("submit", function(e){
 
     let messageTotal = 0;
     cart.forEach(item => {
-        const itemTotal = item.price * item.qty;
-        messageText += `- ${item.name} x${item.qty} (£${itemTotal.toFixed(2)})\n`;
+        const qty = parseInt(item.qty) || 0;
+        const price = parseFloat(item.price) || 0;
+        const itemTotal = qty * price;
+        messageText += `- ${item.name} x${qty} (£${itemTotal.toFixed(2)})\n`;
         messageTotal += itemTotal;
     });
 
@@ -88,7 +85,7 @@ checkoutForm.addEventListener("submit", function(e){
     if(email) messageText += `Email: ${email}\n`;
     messageText += `---------------------------\n*Research Use Only*`;
 
-    // Encode message for WhatsApp
+    // Encode and open WhatsApp
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
     window.open(waLink, "_blank");
 
