@@ -1,0 +1,116 @@
+<script>
+const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+const cartTable = document.getElementById("cartTable");
+const totalPriceEl = document.getElementById("totalPrice");
+const checkoutForm = document.getElementById("checkoutForm");
+const checkoutMessage = document.getElementById("checkoutMessage");
+
+const shippingOption = document.getElementById("shippingOption");
+const collectionOption = document.getElementById("collectionOption");
+
+const WHATSAPP_NUMBER = "447429328012";
+
+let total = 0;
+
+// Build cart table
+cart.forEach(item => {
+    const row = document.createElement("tr");
+    const qty = parseInt(item.qty) || 0;
+    const price = parseFloat(item.price) || 0;
+    const itemTotal = qty * price;
+
+    row.innerHTML = `<td>${item.name}</td><td>${qty}</td><td>£${itemTotal.toFixed(2)}</td>`;
+    cartTable.appendChild(row);
+
+    total += itemTotal;
+});
+
+let baseTotal = total;
+
+// Update total when delivery option changes
+function updateTotal() {
+    let finalTotal = baseTotal;
+
+    if (shippingOption.checked) {
+        finalTotal += 10;
+    }
+
+    totalPriceEl.textContent = finalTotal.toFixed(2);
+}
+
+shippingOption.addEventListener("change", updateTotal);
+collectionOption.addEventListener("change", updateTotal);
+
+// Initial total display
+updateTotal();
+
+checkoutForm.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    if(cart.length === 0){
+        alert("Cart is empty!");
+        return;
+    }
+
+    if(!shippingOption.checked && !collectionOption.checked){
+        alert("Please select a delivery option.");
+        return;
+    }
+
+    const formData = new FormData(checkoutForm);
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const address = formData.get("address");
+
+    if(shippingOption.checked && address.trim() === ""){
+        alert("Postal address is required for shipping.");
+        return;
+    }
+
+    const orderNumber = "PP-" + new Date().getTime();
+
+    let messageText = `*Pembrokeshire Peptides Order*\n`;
+    messageText += `---------------------------\n`;
+    messageText += `*Order #:* ${orderNumber}\n\n`;
+    messageText += `*Products:*\n`;
+
+    let messageTotal = baseTotal;
+
+    cart.forEach(item => {
+        const qty = parseInt(item.qty) || 0;
+        const price = parseFloat(item.price) || 0;
+        const itemTotal = qty * price;
+        messageText += `- ${item.name} x${qty} (£${itemTotal.toFixed(2)})\n`;
+    });
+
+    messageText += `\n*Delivery:*\n`;
+
+    if (shippingOption.checked) {
+        messageTotal += 10;
+        messageText += `UK Postage (£10)\n`;
+    } else {
+        messageText += `Collection (Free)\n`;
+    }
+
+    messageText += `\n*Total:* £${messageTotal.toFixed(2)}\n\n`;
+    messageText += `*Customer Details:*\n`;
+    messageText += `Name: ${name}\n`;
+
+    if (shippingOption.checked) {
+        messageText += `Address: ${address}\n`;
+    }
+
+    if(email){
+        messageText += `Email: ${email}\n`;
+    }
+
+    messageText += `---------------------------\n*Research Use Only*`;
+
+    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
+    window.open(waLink, "_blank");
+
+    checkoutMessage.textContent = `Your order (#${orderNumber}) is being sent to WhatsApp.`;
+
+    localStorage.removeItem("cart");
+});
+</script>
