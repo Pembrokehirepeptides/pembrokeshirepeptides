@@ -1,116 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Checkout - Pembrokeshire Peptides</title>
+<style>
+body { font-family: Arial; background:#f4f7f8; padding:20px; }
+.container { max-width:700px; margin:auto; background:#fff; padding:25px; border-radius:8px; }
+h2 { margin-top:0; }
+input, textarea { width:100%; padding:8px; margin-top:5px; margin-bottom:15px; }
+button { padding:12px 20px; background:#25D366; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
+.total { font-size:1.2em; font-weight:bold; margin-top:15px; }
+.shipping { margin-bottom:15px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>Checkout</h2>
+
+<div id="orderSummary"></div>
+
+<div class="shipping">
+<label>
+<input type="checkbox" id="shippingBox">
+Add UK Shipping (£10)
+</label>
+</div>
+
+<div class="total">
+Total: £<span id="totalAmount">0</span>
+</div>
+
+<h3>Your Details</h3>
+<input type="text" id="name" placeholder="Full Name" required>
+<input type="text" id="address" placeholder="Postal Address" required>
+<input type="email" id="email" placeholder="Email Address" required>
+
+<button onclick="sendOrder()">Send Order via WhatsApp</button>
+
+</div>
+
 <script>
-const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-const cartTable = document.getElementById("cartTable");
-const totalPriceEl = document.getElementById("totalPrice");
-const checkoutForm = document.getElementById("checkoutForm");
-const checkoutMessage = document.getElementById("checkoutMessage");
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let orderSummary = document.getElementById("orderSummary");
+let totalAmount = document.getElementById("totalAmount");
+let shippingBox = document.getElementById("shippingBox");
 
-const shippingOption = document.getElementById("shippingOption");
-const collectionOption = document.getElementById("collectionOption");
+let baseTotal = 0;
 
-const WHATSAPP_NUMBER = "447429328012";
-
-let total = 0;
-
-// Build cart table
-cart.forEach(item => {
-    const row = document.createElement("tr");
-    const qty = parseInt(item.qty) || 0;
-    const price = parseFloat(item.price) || 0;
-    const itemTotal = qty * price;
-
-    row.innerHTML = `<td>${item.name}</td><td>${qty}</td><td>£${itemTotal.toFixed(2)}</td>`;
-    cartTable.appendChild(row);
-
-    total += itemTotal;
-});
-
-let baseTotal = total;
-
-// Update total when delivery option changes
-function updateTotal() {
-    let finalTotal = baseTotal;
-
-    if (shippingOption.checked) {
-        finalTotal += 10;
-    }
-
-    totalPriceEl.textContent = finalTotal.toFixed(2);
-}
-
-shippingOption.addEventListener("change", updateTotal);
-collectionOption.addEventListener("change", updateTotal);
-
-// Initial total display
-updateTotal();
-
-checkoutForm.addEventListener("submit", function(e){
-    e.preventDefault();
-
-    if(cart.length === 0){
-        alert("Cart is empty!");
-        return;
-    }
-
-    if(!shippingOption.checked && !collectionOption.checked){
-        alert("Please select a delivery option.");
-        return;
-    }
-
-    const formData = new FormData(checkoutForm);
-    const name = formData.get("name");
-    const email = formData.get("email");
-    const address = formData.get("address");
-
-    if(shippingOption.checked && address.trim() === ""){
-        alert("Postal address is required for shipping.");
-        return;
-    }
-
-    const orderNumber = "PP-" + new Date().getTime();
-
-    let messageText = `*Pembrokeshire Peptides Order*\n`;
-    messageText += `---------------------------\n`;
-    messageText += `*Order #:* ${orderNumber}\n\n`;
-    messageText += `*Products:*\n`;
-
-    let messageTotal = baseTotal;
+function renderCart() {
+    orderSummary.innerHTML = "";
+    baseTotal = 0;
 
     cart.forEach(item => {
-        const qty = parseInt(item.qty) || 0;
-        const price = parseFloat(item.price) || 0;
-        const itemTotal = qty * price;
-        messageText += `- ${item.name} x${qty} (£${itemTotal.toFixed(2)})\n`;
+        let lineTotal = item.price * item.qty;
+        baseTotal += lineTotal;
+        orderSummary.innerHTML += `<p>${item.name} x ${item.qty} = £${lineTotal.toFixed(2)}</p>`;
     });
 
-    messageText += `\n*Delivery:*\n`;
+    updateTotal();
+}
 
-    if (shippingOption.checked) {
-        messageTotal += 10;
-        messageText += `UK Postage (£10)\n`;
-    } else {
-        messageText += `Collection (Free)\n`;
+function updateTotal() {
+    let shipping = shippingBox.checked ? 10 : 0;
+    let finalTotal = baseTotal + shipping;
+    totalAmount.innerText = finalTotal.toFixed(2);
+}
+
+shippingBox.addEventListener("change", updateTotal);
+
+function generateOrderNumber() {
+    return "PP" + Date.now().toString().slice(-6);
+}
+
+function sendOrder() {
+
+    let name = document.getElementById("name").value.trim();
+    let address = document.getElementById("address").value.trim();
+    let email = document.getElementById("email").value.trim();
+
+    if(!name || !address || !email){
+        alert("Please complete all details.");
+        return;
     }
 
-    messageText += `\n*Total:* £${messageTotal.toFixed(2)}\n\n`;
-    messageText += `*Customer Details:*\n`;
-    messageText += `Name: ${name}\n`;
-
-    if (shippingOption.checked) {
-        messageText += `Address: ${address}\n`;
+    if(cart.length === 0){
+        alert("Cart is empty.");
+        return;
     }
 
-    if(email){
-        messageText += `Email: ${email}\n`;
+    let orderNumber = generateOrderNumber();
+    let shipping = shippingBox.checked ? 10 : 0;
+    let finalTotal = baseTotal + shipping;
+
+    let message = `*New Order - Pembrokeshire Peptides*%0A`;
+    message += `Order Number: ${orderNumber}%0A%0A`;
+
+    cart.forEach(item => {
+        message += `${item.name} x ${item.qty}%0A`;
+    });
+
+    if(shipping > 0){
+        message += `Shipping: £10%0A`;
     }
 
-    messageText += `---------------------------\n*Research Use Only*`;
+    message += `%0ATotal: £${finalTotal.toFixed(2)}%0A%0A`;
+    message += `Customer:%0A`;
+    message += `Name: ${name}%0A`;
+    message += `Address: ${address}%0A`;
+    message += `Email: ${email}`;
 
-    const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
-    window.open(waLink, "_blank");
+    window.open(`https://wa.me/447429328012?text=${message}`, "_blank");
+}
 
-    checkoutMessage.textContent = `Your order (#${orderNumber}) is being sent to WhatsApp.`;
-
-    localStorage.removeItem("cart");
-});
+renderCart();
 </script>
+
+</body>
+</html>
