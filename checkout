@@ -1,119 +1,308 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Checkout - Pembrokeshire Peptides</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pembrokeshire Peptides Checkout</title>
+
 <style>
-body { font-family: Arial; background:#f4f7f8; padding:20px; }
-.container { max-width:700px; margin:auto; background:#fff; padding:25px; border-radius:8px; }
-h2 { margin-top:0; }
-input, textarea { width:100%; padding:8px; margin-top:5px; margin-bottom:15px; }
-button { padding:12px 20px; background:#25D366; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:bold; }
-.total { font-size:1.2em; font-weight:bold; margin-top:15px; }
-.shipping { margin-bottom:15px; }
+body {
+    font-family: Arial, sans-serif;
+    background:#f4f7f8;
+    margin:0;
+    padding:20px;
+}
+
+.container {
+    max-width:600px;
+    margin:auto;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+}
+
+h1 {
+    text-align:center;
+}
+
+table {
+    width:100%;
+    border-collapse: collapse;
+    margin-bottom:20px;
+}
+
+th, td {
+    border:1px solid #ccc;
+    padding:8px;
+    text-align:center;
+}
+
+th {
+    background:#eef3f6;
+}
+
+input, textarea {
+    width:100%;
+    padding:8px;
+    margin:5px 0;
+    box-sizing:border-box;
+    border-radius:4px;
+    border:1px solid #ccc;
+}
+
+button.btn {
+    display:inline-block;
+    padding:10px 20px;
+    background:#25D366;
+    color:#fff;
+    text-decoration:none;
+    border-radius:5px;
+    cursor:pointer;
+    border:none;
+    font-weight:bold;
+    margin-top:10px;
+}
+
+.bank-btn {
+    background:#003d66;
+}
+
+#bankDetails {
+    display:none;
+    margin-top:20px;
+    padding:20px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    background:#f9f9f9;
+}
 </style>
 </head>
+
 <body>
 
 <div class="container">
-<h2>Checkout</h2>
 
-<div id="orderSummary"></div>
+<h1>Checkout</h1>
 
-<div class="shipping">
+<table id="cartTable">
+<tr>
+<th>Product</th>
+<th>Qty</th>
+<th>Price (£)</th>
+</tr>
+</table>
+
+<p>
+<strong>Total: £<span id="totalPrice">0</span></strong>
+</p>
+
 <label>
 <input type="checkbox" id="shippingBox">
 Add UK Shipping (£10)
 </label>
+
+<h2>Customer Details</h2>
+
+<form id="checkoutForm">
+
+<label>
+Name:
+<input type="text" name="name" required>
+</label>
+
+<label>
+Email (optional):
+<input type="email" name="email">
+</label>
+
+<label>
+Postal Address:
+<textarea name="address" required></textarea>
+</label>
+
+<button type="submit" class="btn">
+Send Order via WhatsApp
+</button>
+
+<button type="button"
+class="btn bank-btn"
+onclick="toggleBankDetails()">
+View Bank Transfer Details
+</button>
+
+</form>
+
+<div id="bankDetails">
+
+<h3>Bank Transfer Details</h3>
+
+<p><strong>Bank:</strong> Barclays</p>
+
+<p><strong>Account Name:</strong> Tan Plan Nutrition</p>
+
+<p><strong>Sort Code:</strong> 20-18-17</p>
+
+<p><strong>Account Number:</strong> 33082717</p>
+
+<p>
+Please use your order number as the payment reference.
+</p>
+
+<p>
+<strong>Reference:</strong>
+<span id="bankOrderRef">Generated after checkout</span>
+</p>
+
 </div>
 
-<div class="total">
-Total: £<span id="totalAmount">0</span>
-</div>
-
-<h3>Your Details</h3>
-<input type="text" id="name" placeholder="Full Name" required>
-<input type="text" id="address" placeholder="Postal Address" required>
-<input type="email" id="email" placeholder="Email Address" required>
-
-<button onclick="sendOrder()">Send Order via WhatsApp</button>
+<p id="checkoutMessage"
+style="color:green;margin-top:10px;"></p>
 
 </div>
 
 <script>
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
-let orderSummary = document.getElementById("orderSummary");
-let totalAmount = document.getElementById("totalAmount");
-let shippingBox = document.getElementById("shippingBox");
+
+const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+const cartTable = document.getElementById("cartTable");
+const totalPriceEl = document.getElementById("totalPrice");
+const checkoutForm = document.getElementById("checkoutForm");
+const checkoutMessage = document.getElementById("checkoutMessage");
+const shippingBox = document.getElementById("shippingBox");
+
+const WHATSAPP_NUMBER = "447429328012";
 
 let baseTotal = 0;
 
-function renderCart() {
-    orderSummary.innerHTML = "";
-    baseTotal = 0;
+// Build cart table
+cart.forEach(item => {
 
-    cart.forEach(item => {
-        let lineTotal = item.price * item.qty;
-        baseTotal += lineTotal;
-        orderSummary.innerHTML += `<p>${item.name} x ${item.qty} = £${lineTotal.toFixed(2)}</p>`;
-    });
+    const row = document.createElement("tr");
 
-    updateTotal();
-}
+    const qty = parseInt(item.qty) || 0;
+    const price = parseFloat(item.price) || 0;
 
+    const itemTotal = qty * price;
+
+    row.innerHTML =
+    `<td>${item.name}</td>
+     <td>${qty}</td>
+     <td>£${itemTotal.toFixed(2)}</td>`;
+
+    cartTable.appendChild(row);
+
+    baseTotal += itemTotal;
+});
+
+// Update total
 function updateTotal() {
-    let shipping = shippingBox.checked ? 10 : 0;
-    let finalTotal = baseTotal + shipping;
-    totalAmount.innerText = finalTotal.toFixed(2);
+
+    let finalTotal = baseTotal;
+
+    if(shippingBox.checked){
+        finalTotal += 10;
+    }
+
+    totalPriceEl.textContent = finalTotal.toFixed(2);
 }
 
 shippingBox.addEventListener("change", updateTotal);
 
-function generateOrderNumber() {
-    return "PP" + Date.now().toString().slice(-6);
+updateTotal();
+
+// Show/hide bank details
+function toggleBankDetails(){
+
+    const details = document.getElementById("bankDetails");
+
+    if(details.style.display === "none"){
+        details.style.display = "block";
+    } else {
+        details.style.display = "none";
+    }
 }
 
-function sendOrder() {
+// Checkout
+checkoutForm.addEventListener("submit", function(e){
 
-    let name = document.getElementById("name").value.trim();
-    let address = document.getElementById("address").value.trim();
-    let email = document.getElementById("email").value.trim();
-
-    if(!name || !address || !email){
-        alert("Please complete all details.");
-        return;
-    }
+    e.preventDefault();
 
     if(cart.length === 0){
-        alert("Cart is empty.");
+        alert("Cart is empty!");
         return;
     }
 
-    let orderNumber = generateOrderNumber();
-    let shipping = shippingBox.checked ? 10 : 0;
-    let finalTotal = baseTotal + shipping;
+    const formData = new FormData(checkoutForm);
 
-    let message = `*New Order - Pembrokeshire Peptides*%0A`;
-    message += `Order Number: ${orderNumber}%0A%0A`;
+    const name = formData.get("name");
+    const email = formData.get("email");
+    const address = formData.get("address");
+
+    const orderNumber = "PP-" + new Date().getTime();
+
+    document.getElementById("bankOrderRef").innerText = orderNumber;
+
+    let messageText = `*Pembrokeshire Peptides Order*\n`;
+
+    messageText += `---------------------------\n`;
+
+    messageText += `*Order #:* ${orderNumber}\n\n`;
+
+    messageText += `*Products:*\n`;
+
+    let messageTotal = baseTotal;
 
     cart.forEach(item => {
-        message += `${item.name} x ${item.qty}%0A`;
+
+        const qty = parseInt(item.qty) || 0;
+
+        const price = parseFloat(item.price) || 0;
+
+        const itemTotal = qty * price;
+
+        messageText +=
+        `- ${item.name} x${qty} (£${itemTotal.toFixed(2)})\n`;
+
+        messageTotal += 0;
     });
 
-    if(shipping > 0){
-        message += `Shipping: £10%0A`;
+    if(shippingBox.checked){
+
+        messageText += `\nShipping: £10\n`;
+
+        messageTotal += 10;
     }
 
-    message += `%0ATotal: £${finalTotal.toFixed(2)}%0A%0A`;
-    message += `Customer:%0A`;
-    message += `Name: ${name}%0A`;
-    message += `Address: ${address}%0A`;
-    message += `Email: ${email}`;
+    messageText +=
+    `\n*Total:* £${messageTotal.toFixed(2)}\n\n`;
 
-    window.open(`https://wa.me/447429328012?text=${message}`, "_blank");
-}
+    messageText +=
+    `*Customer Details:*\n`;
 
-renderCart();
+    messageText +=
+    `Name: ${name}\n`;
+
+    messageText +=
+    `Address: ${address}\n`;
+
+    if(email){
+        messageText += `Email: ${email}\n`;
+    }
+
+    messageText +=
+    `---------------------------\n*Research Use Only*`;
+
+    const waLink =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(messageText)}`;
+
+    window.open(waLink, "_blank");
+
+    checkoutMessage.textContent =
+    `Your order (#${orderNumber}) is being sent to WhatsApp.`;
+
+    localStorage.removeItem("cart");
+});
+
 </script>
 
 </body>
